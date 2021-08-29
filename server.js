@@ -83,6 +83,16 @@ app.post("/api/orders", async (req, res) => {
   res.send(order);
 });
 
+app.get("/api/orders", async (req, res) => {
+  const orders = await Order.find({});
+  res.send(orders);
+});
+
+app.delete("/api/orders/:id", async (req, res) => {
+  const orders = await Order.findByIdAndDelete(req.params.id);
+  res.send(orders);
+});
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log("Server at the http://localhost:5000"));
