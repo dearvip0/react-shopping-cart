@@ -2,12 +2,20 @@ const express = require("express");
 const bodyParser = require("body-Parser");
 const mongoose = require("mongoose");
 const shortId = require("shortid");
+const path = require("path");
 
 const app = express();
 app.use(bodyParser.json());
 
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 mongoose.connect(
-  "mongodb+srv://admin:admin@cluster0.bxqvx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  process.env.MONGDB_URL ||
+    "mongodb+srv://admin:admin@cluster0.bxqvx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
